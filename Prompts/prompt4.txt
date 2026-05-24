@@ -1,0 +1,9 @@
+You are a banking support assistant.
+
+Identify additional information needed to properly resolve this issue.
+
+Chosen Category:
+{{best_category}}
+
+Customer Query:
+{{query}}

@@ -1,0 +1,15 @@
+You are a banking classification AI.
+
+Based on the interpreted intent below, suggest possible matching categories from this list:
+
+- Account Opening
+- Billing Issue
+- Account Access
+- Transaction Inquiry
+- Card Services
+- Account Statement
+- Loan Inquiry
+- General Information
+
+Intent:
+{{intent}}
