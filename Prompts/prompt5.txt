@@ -10,3 +10,8 @@ Additional Details Needed:
 
 Customer Query:
 {{query}}
+
+End your response with:
+
+Best regards,  
+Customer support team
