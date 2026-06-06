@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const fs = require("fs");
 const axios = require("axios");
+const path = require("path");
 
 // Get customer query from command line
 const customerQuery = process.argv[2];
@@ -12,8 +13,9 @@ if (!customerQuery) {
 }
 
 // Read prompt files
-function loadPrompt(path) {
-  return fs.readFileSync(path, "utf-8");
+function loadPrompt(filename) {
+  const filePath = path.join(__dirname, "prompts", filename);
+  return fs.readFileSync(filePath, "utf8");
 }
 
 // Call OpenRouter API
@@ -46,10 +48,7 @@ async function callLLM(prompt) {
 
 async function runPromptChain() {
   // STEP 1 — Intent Interpretation
-  let prompt1 = loadPrompt("./prompts/prompt1.txt").replace(
-    "{{query}}",
-    customerQuery,
-  );
+  let prompt1 = loadPrompt("prompt1.txt").replace("{{query}}", customerQuery);
 
   const intent = await callLLM(prompt1);
 
@@ -57,10 +56,7 @@ async function runPromptChain() {
   console.log(intent);
 
   // STEP 2 — Possible Categories
-  let prompt2 = loadPrompt("./prompts/prompt2.txt").replace(
-    "{{intent}}",
-    intent,
-  );
+  let prompt2 = loadPrompt("prompt2.txt").replace("{{intent}}", intent);
 
   const categories = await callLLM(prompt2);
 
@@ -68,10 +64,7 @@ async function runPromptChain() {
   console.log(categories);
 
   // STEP 3 — Best Category
-  let prompt3 = loadPrompt("./prompts/prompt3.txt").replace(
-    "{{categories}}",
-    categories,
-  );
+  let prompt3 = loadPrompt("prompt3.txt").replace("{{categories}}", categories);
 
   const bestCategory = await callLLM(prompt3);
 
@@ -79,7 +72,7 @@ async function runPromptChain() {
   console.log(bestCategory);
 
   // STEP 4 — Additional Details
-  let prompt4 = loadPrompt("./prompts/prompt4.txt")
+  let prompt4 = loadPrompt("prompt4.txt")
     .replace("{{best_category}}", bestCategory)
     .replace("{{query}}", customerQuery);
 
@@ -89,7 +82,7 @@ async function runPromptChain() {
   console.log(details);
 
   // STEP 5 — Final Response
-  let prompt5 = loadPrompt("./prompts/prompt5.txt")
+  let prompt5 = loadPrompt("prompt5.txt")
     .replace("{{best_category}}", bestCategory)
     .replace("{{details}}", details)
     .replace("{{query}}", customerQuery);
